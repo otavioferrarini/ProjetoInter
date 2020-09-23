@@ -18,7 +18,7 @@ void inicializacaoCheckIn(int checkIns[MAX_US][MAX_DIA][MAX_MES][MAX_ESTAB]);
 void cadastroUsuarios(Usuario usuarios[MAX_US], int* accUs);
 void listagemUsuarios(Usuario usuarios[MAX_US], int accUs);
 void listagemEstabelecimentos();
-void cadastroCheckIn();
+void cadastroCheckIn(int checkIns[MAX_US][MAX_DIA][MAX_MES][MAX_ESTAB]);
 void reportarCaso();
 void salvarDados(Usuario usuarios[MAX_US]);
 
@@ -44,6 +44,12 @@ int main(){
                 break;
             case 2:
                 listagemUsuarios(usuarios, accUs);
+                break;
+            case 3:
+                listagemEstabelecimentos();
+                break;
+            case 4:
+                cadastroCheckIn(checkIns);
                 break;
         }
 
@@ -115,6 +121,27 @@ void listagemUsuarios(Usuario usuarios[MAX_US], int accUs){
     for(int i = 0; i < accUs; i++){
         printf("%d\t%s\n", usuarios[i].id, usuarios[i].nome);
     }
+}
+
+void listagemEstabelecimentos(){
+    printf("ID\tESTABELECIMENTOS\n");
+    printf("1\tPraca\n");
+    printf("2\tMercado\n");
+    printf("3\tFeira\n");
+    printf("4\tEscola\n");
+}
+
+void cadastroCheckIn(int checkIns[MAX_US][MAX_DIA][MAX_MES][MAX_ESTAB]){
+    int estabelecimento, dia, mes, id; 
+    printf("ID do usuario: ");
+    scanf("%d", &id);
+    printf("Estabelecimento: ");
+    scanf("%d", &estabelecimento);
+    printf("Dia: ");
+    scanf("%d", &dia);
+    printf("Mes: ");
+    scanf("%d", &mes);
+    checkIns[id][dia][mes][estabelecimento] = 1;
 }
 
 void salvarDados(Usuario usuarios[MAX_US]){
