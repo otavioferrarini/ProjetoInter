@@ -153,7 +153,11 @@ void salvarDados(Usuario usuarios[MAX_US]){
     }
 
     for(int i = 0; i < accUs; i++){
-        fprintf(arq, "%d %s\n", usuarios[i].id, usuarios[i].nome);
+        if(i == accUs -1){
+            fprintf(arq, "%d %s", usuarios[i].id, usuarios[i].nome);
+        } else{
+            fprintf(arq, "%d %s\n", usuarios[i].id, usuarios[i].nome);
+        }
     }
 
     fclose(arq);
