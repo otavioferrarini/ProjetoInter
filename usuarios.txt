@@ -1,6 +1,4 @@
-0 Eduardo
-1 sklfmvklsdf
-2 lkdmalsmdklasd
-3 vjkankdnks
-4 kdbjfngjksdmlkf
-5 kjdgnsklfmaf
+0    Eduardo
+1    Guilherme
+2    Dora
+3    Olivia
