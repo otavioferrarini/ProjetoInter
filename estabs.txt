@@ -1,0 +1,8 @@
+0
+Praça
+1
+Mercado
+2
+Feira
+3
+Escola
