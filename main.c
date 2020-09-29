@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <string.h>
-#define MAX_US 20
+#define MAX_US 50
 #define MAX_DIA 32
 #define MAX_MES 13
 #define MAX_ESTAB 5
@@ -20,7 +20,8 @@ void listagemUsuarios(Usuario usuarios[MAX_US], int accUs);
 void listagemEstabelecimentos();
 void cadastroCheckIns(int checkIns[MAX_US][MAX_DIA][MAX_MES][MAX_ESTAB]);
 void listagemCheckIns(int checkIns[MAX_US][MAX_DIA][MAX_MES][MAX_ESTAB], Usuario usuarios[MAX_US]);
-void reportarCaso();
+void reportarCaso(int checkIns[MAX_US][MAX_DIA][MAX_MES][MAX_ESTAB], Usuario usuarios[MAX_US]);
+void listagemReportarCaso(int checkIns[MAX_US][MAX_DIA][MAX_MES][MAX_ESTAB], Usuario usuarios[MAX_US], int j, int k, int l, int reportado);
 void salvarDados(Usuario usuarios[MAX_US], int checkIns[MAX_US][MAX_DIA][MAX_MES][MAX_ESTAB]);
 
 // variáveis globais
@@ -51,6 +52,10 @@ int main(){
                 break;
             case 5:
                 listagemCheckIns(checkIns, usuarios);
+                break;
+            case 6: 
+                reportarCaso(checkIns, usuarios);
+                break;
         }
 
     }while(op);
@@ -94,6 +99,7 @@ void menu(){
     printf("\t 3 - Listagem de estabelecimento\n");
     printf("\t 4 - CheckIn\n");
     printf("\t 5 - Listagem de check-in\n");
+    printf("\t 6 - Reportar caso\n");
     printf("\t 0 - Fechar programa\n");
 }
 
@@ -126,12 +132,14 @@ void cadastroUsuarios(Usuario* usuarios, int* accUs){
     }while(cont == 's' || cont == 'S');
 }
 
+
 void listagemUsuarios(Usuario usuarios[MAX_US], int accUs){
     printf("\nID\tNOME\n");
     for(int i = 0; i < accUs; i++){
         printf("%d\t%s\n", usuarios[i].id, usuarios[i].nome);
     }
 }
+
 
 void listagemEstabelecimentos(){
     printf("\nID\tESTABELECIMENTOS\n");
@@ -140,6 +148,7 @@ void listagemEstabelecimentos(){
     printf("3\tFeira\n");
     printf("4\tEscola\n");
 }
+
 
 void cadastroCheckIns(int checkIns[MAX_US][MAX_DIA][MAX_MES][MAX_ESTAB]){
     int estabelecimento, dia, mes, id; 
@@ -154,11 +163,12 @@ void cadastroCheckIns(int checkIns[MAX_US][MAX_DIA][MAX_MES][MAX_ESTAB]){
         printf("Mes: ");
         scanf("%d", &mes);
         checkIns[id][dia][mes][estabelecimento] = 1;
-        printf("Deseja cadastrar novo usuario? (s/n) ");
+        printf("Deseja cadastrar novo checkin? (s/n) ");
         setbuf(stdin, NULL);
         scanf(" %c", &cont);
     }while(cont == 's' || cont == 'S');
 }
+
 
 void listagemCheckIns(int checkIns[MAX_US][MAX_DIA][MAX_MES][MAX_ESTAB], Usuario usuarios[MAX_US]){
     printf("\nDATA\tNOME\t\t\tEstabelecimento\n");
@@ -174,6 +184,33 @@ void listagemCheckIns(int checkIns[MAX_US][MAX_DIA][MAX_MES][MAX_ESTAB], Usuario
         }
     }
 }
+
+
+void reportarCaso(int checkIns[MAX_US][MAX_DIA][MAX_MES][MAX_ESTAB], Usuario usuarios[MAX_US]){
+    int id;
+    printf("ID do usuario contaminado: ");
+    scanf("%d", &id);
+
+    for(int j = 0; j < MAX_DIA; j++){
+        for(int k = 0; k < MAX_MES; k++){
+            for(int l = 0; l < MAX_ESTAB; l++){
+                if(checkIns[id][j][k][l]){
+                    listagemReportarCaso(checkIns, usuarios, j, k, l, id);
+                }
+            }
+        }
+    }
+
+}
+
+void listagemReportarCaso(int checkIns[MAX_US][MAX_DIA][MAX_MES][MAX_ESTAB], Usuario usuarios[MAX_US], int j, int k, int l, int reportado){
+    for(int i = 0; i < MAX_US; i++){
+        if(checkIns[i][j][k][l] && i != reportado){
+            printf("%d\t%s\tLocal: %d\tData: %d/%d\n", i, usuarios[i].nome, l, j, k);
+        }
+    }
+}
+
 
 void salvarDados(Usuario usuarios[MAX_US], int checkIns[MAX_US][MAX_DIA][MAX_MES][MAX_ESTAB]){
     FILE *arq = fopen("usuarios.txt", "w");
